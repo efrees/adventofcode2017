@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using AdventOfCode2016;
 
 namespace AdventOfCode2017
@@ -12,9 +13,35 @@ namespace AdventOfCode2017
 
         public int GetSolution(string fileText)
         {
-            var lines = fileText.SplitIntoLines();
+            var line = fileText.Trim();
 
-            return 0;
+            var count = 0;
+            for (int i = 0; i < line.Length; i++)
+            {
+                var next = (i + 1) % line.Length;
+                if (line[i] == line[next])
+                {
+                    count += line[i] - '0';
+                }
+            }
+
+            return count;
+        }
+        public int GetSolution2(string fileText)
+        {
+            var line = fileText.Trim();
+
+            var count = 0;
+            for (int i = 0; i < line.Length; i++)
+            {
+                var next = (i + line.Length/2) % line.Length;
+                if (line[i] == line[next])
+                {
+                    count += line[i] - '0';
+                }
+            }
+
+            return count;
         }
     }
 }
