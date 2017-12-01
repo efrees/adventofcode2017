@@ -10,38 +10,30 @@ namespace AdventOfCode2017
         {
             return new Day1Solver();
         }
-
-        public int GetSolution(string fileText)
+        
+        public void Solve(string fileText)
         {
             var line = fileText.Trim();
 
-            var count = 0;
-            for (int i = 0; i < line.Length; i++)
+            var sumPart1 = 0;
+            var sumPart2 = 0;
+            for (var i = 0; i < line.Length; i++)
             {
                 var next = (i + 1) % line.Length;
                 if (line[i] == line[next])
                 {
-                    count += line[i] - '0';
+                    sumPart1 += line[i] - '0';
                 }
-            }
 
-            return count;
-        }
-        public int GetSolution2(string fileText)
-        {
-            var line = fileText.Trim();
-
-            var count = 0;
-            for (int i = 0; i < line.Length; i++)
-            {
-                var next = (i + line.Length/2) % line.Length;
-                if (line[i] == line[next])
+                var nextPart2 = (i + line.Length/2) % line.Length;
+                if (line[i] == line[nextPart2])
                 {
-                    count += line[i] - '0';
+                    sumPart2 += line[i] - '0';
                 }
             }
-
-            return count;
+            
+            Console.WriteLine($"P1: {sumPart1}");
+            Console.WriteLine($"P2: {sumPart2}");
         }
     }
 }
