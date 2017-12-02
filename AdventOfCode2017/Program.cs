@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using AdventOfCode2017.Solvers;
 
 namespace AdventOfCode2017
 {
@@ -7,8 +8,8 @@ namespace AdventOfCode2017
     {
         static void Main(string[] args)
         {
-            var fileText = GetInputFromFile("day1input.txt");
-            Day1Solver.Create().Solve(fileText);
+            var fileText = GetInputFromFile("day2input.txt");
+            Day2Solver.Create().Solve(fileText);
 
             Console.ReadKey();
         }
