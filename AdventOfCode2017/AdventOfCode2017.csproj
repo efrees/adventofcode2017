@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Solvers\Day3Solver.cs" />
+    <Compile Include="Md5Hasher.cs" />
     <Compile Include="Solvers\Day2Solver.cs" />
     <Compile Include="Solvers\Day1Solver.cs" />
     <Compile Include="Program.cs" />
