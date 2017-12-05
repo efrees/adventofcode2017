@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
-using AdventOfCode2016;
 
-namespace AdventOfCode2017
+namespace AdventOfCode2017.Solvers
 {
-    internal class Day1Solver
+    internal class Day1Solver : IProblemSolver
     {
         public static Day1Solver Create()
         {

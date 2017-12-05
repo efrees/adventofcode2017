@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Text;
-using AdventOfCode2016;
 
 namespace AdventOfCode2017.Solvers
 {
-    internal class Day3Solver
+    internal class Day3Solver : IProblemSolver
     {
         private const int PuzzleInput = 265149;
 
@@ -13,7 +12,13 @@ namespace AdventOfCode2017.Solvers
             return new Day3Solver();
         }
 
-        public void SolvePart1(string fileText)
+        public void Solve(string fileText)
+        {
+            SolvePart1();
+            SolvePart2();
+        }
+
+        public void SolvePart1()
         {
             var sideLength = 1;
             var innerTotal = 1;

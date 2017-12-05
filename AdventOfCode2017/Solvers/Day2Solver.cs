@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using AdventOfCode2016;
 
 namespace AdventOfCode2017.Solvers
 {
-    internal class Day2Solver
+    internal class Day2Solver : IProblemSolver
     {
         public static Day2Solver Create()
         {

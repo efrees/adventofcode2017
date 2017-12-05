@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AdventOfCode2016
+namespace AdventOfCode2017
 {
     public static class StringExtensions
     {

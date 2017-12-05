@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Solvers\Day5Solver.cs" />
     <Compile Include="Solvers\Day4Solver.cs" />
     <Compile Include="Solvers\Day3Solver.cs" />
     <Compile Include="Md5Hasher.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Solvers\Day1Solver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solvers\IProblemSolver.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +60,7 @@
   <ItemGroup>
     <Content Include="InputFiles\day1input.txt" />
     <Content Include="InputFiles\day2input.txt" />
+    <Content Include="InputFiles\day5input.txt" />
     <Content Include="InputFiles\day4input.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
