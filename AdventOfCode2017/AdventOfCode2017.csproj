@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrayExtensions.cs" />
     <Compile Include="Solvers\Day6Solver.cs" />
     <Compile Include="Solvers\Day5Solver.cs" />
     <Compile Include="Solvers\Day4Solver.cs" />

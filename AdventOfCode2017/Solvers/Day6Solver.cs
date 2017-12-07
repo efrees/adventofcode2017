@@ -16,7 +16,7 @@ namespace AdventOfCode2017.Solvers
             SolvePart1(fileText);
         }
 
-        private Dictionary<string, int> _statesSeen = new Dictionary<string, int>();
+        private Dictionary<int, int> _statesSeen = new Dictionary<int, int>();
         private void SolvePart1(string fileText)
         {
             var strings = fileText.Split('\t')
@@ -32,7 +32,7 @@ namespace AdventOfCode2017.Solvers
                 count++;
             }
 
-            var targetState = string.Join(",", currentState);
+            var targetState = currentState.CreateHash();
             var loopLength = count - _statesSeen[targetState];
 
             Console.WriteLine($"P1: {count}");
@@ -41,13 +41,13 @@ namespace AdventOfCode2017.Solvers
 
         private void LogAsSeen(int[] previous, int index)
         {
-            var newArray = string.Join(",", previous);
+            var newArray = previous.CreateHash();
             _statesSeen.Add(newArray, index);
         }
 
         private bool StateNotSeenBefore(int[] nextState)
         {
-            var nextStateString = string.Join(",", nextState);
+            var nextStateString = nextState.CreateHash();
             return !_statesSeen.ContainsKey(nextStateString);
         }
 
