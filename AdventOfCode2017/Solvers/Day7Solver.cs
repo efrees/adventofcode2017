@@ -18,7 +18,7 @@ namespace AdventOfCode2017.Solvers
         public void Solve(string fileText)
         {
             var lines = fileText.SplitIntoLines();
-            var pattern = "(\\w+) \\((\\d+)\\)( -> (.*))?";
+            var pattern = "(\\w+) \\((\\d+)\\)(?: -> (.*))?";
 
             foreach (var line in lines)
             {
@@ -30,9 +30,10 @@ namespace AdventOfCode2017.Solvers
                     Weight = int.Parse(match.Groups[2].Value)
                 };
 
-                if (match.Groups.Count > 4)
+                if (match.Groups.Count > 3)
                 {
-                    node.ChildrenNames = match.Groups[4].Value.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    node.ChildrenNames = match.Groups[3].Value
+                        .Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var childName in node.ChildrenNames)
                     {
@@ -85,13 +86,11 @@ namespace AdventOfCode2017.Solvers
                 var groups = Children.GroupBy(n => n.GetTotalWeight());
                 var groupWithUniqueChild = groups.FirstOrDefault(g => g.Count() == 1);
 
-                if (groupWithUniqueChild == null) return null;
-
-                var uniqueChild = groupWithUniqueChild.First();
-                return uniqueChild;
+                return groupWithUniqueChild?.First();
             }
 
             private int _storedTotalWeight = -1;
+
             public int GetTotalWeight()
             {
                 if (_storedTotalWeight < 0)
