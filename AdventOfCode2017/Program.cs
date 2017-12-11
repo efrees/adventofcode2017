@@ -8,8 +8,8 @@ namespace AdventOfCode2017
     {
         static void Main(string[] args)
         {
-            var fileText = GetInputFromFile("day10input.txt");
-            Day10Solver.Create().Solve(fileText);
+            var fileText = GetInputFromFile("day11input.txt");
+            Day11Solver.Create().Solve(fileText);
 
             Console.ReadKey();
         }
