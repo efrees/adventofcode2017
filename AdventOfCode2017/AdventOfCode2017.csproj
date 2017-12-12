@@ -47,9 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayExtensions.cs" />
+    <Compile Include="Solvers\Day12Solver.cs" />
     <Compile Include="Solvers\Day11Solver.cs" />
     <Compile Include="Solvers\Day10Solver.cs" />
-    <Compile Include="Solvers\Day11SolverTests.cs" />
     <Compile Include="Solvers\Day9Solver.cs" />
     <Compile Include="Solvers\Day8Solver.cs" />
     <Compile Include="Solvers\Day7Solver.cs" />
@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="InputFiles\day12input.txt" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
