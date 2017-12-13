@@ -18,7 +18,7 @@ namespace AdventOfCode2017.Solvers
             SolvePart1(fileText);
         }
 
-        private void SolvePart1(string fileText)
+        internal int SolvePart1(string fileText)
         {
             var moves = fileText.Split(',');
 
@@ -28,17 +28,25 @@ namespace AdventOfCode2017.Solvers
 
             foreach (var move in moves)
             {
-                if (move[0] == 'n')
-                    y++;
+                if (move == "n")
+                    y += 2;
 
-                if (move[0] == 's')
-                    y--;
+                if (move == "s")
+                    y -= 2;
 
-                if (move.Length > 1 && move[1] == 'e')
-                    x++;
-                if (move.Length > 1 && move[1] == 'w')
-                    x--;
+                if (move.Length > 1)
+                {
+                    if (move[0] == 'n')
+                        y++;
 
+                    if (move[0] == 's')
+                        y--;
+
+                    if (move[1] == 'e')
+                        x++;
+                    if (move[1] == 'w')
+                        x--;
+                }
                 var dist = GetDistance(x, y);
 
                 if (dist > max)
@@ -48,13 +56,18 @@ namespace AdventOfCode2017.Solvers
             var answer = GetDistance(x, y);
             Console.WriteLine($"P1: {answer}");
             Console.WriteLine($"P2: {max}");
+            return answer;
         }
 
         private static int GetDistance(int x, int y)
         {
             x = Math.Abs(x);
             y = Math.Abs(y);
-            var answer = Math.Min(x, y) + Math.Abs(y - x);
+            var diagonalMoves = Math.Min(x, y);
+            y -= diagonalMoves;
+            x -= diagonalMoves;
+            y /= 2;
+            var answer = diagonalMoves + y + x;
             return answer;
         }
     }

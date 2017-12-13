@@ -10,8 +10,8 @@ namespace AdventOfCode2017
         [STAThread]
         static void Main(string[] args)
         {
-            var fileText = GetInputFromFile("day13input.txt");
-            Day13Solver.Create().Solve(fileText);
+            var fileText = GetInputFromFile("day11input.txt");
+            Day11Solver.Create().Solve(fileText);
 
             Console.ReadKey();
         }
