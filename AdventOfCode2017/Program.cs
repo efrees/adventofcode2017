@@ -7,10 +7,11 @@ namespace AdventOfCode2017
 {
     public class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
-            var fileText = GetInputFromFile("day12input.txt");
-            Day12Solver.Create().Solve(fileText);
+            var fileText = GetInputFromFile("day13input.txt");
+            Day13Solver.Create().Solve(fileText);
 
             Console.ReadKey();
         }
