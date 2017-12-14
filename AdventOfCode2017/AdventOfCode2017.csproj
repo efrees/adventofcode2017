@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayExtensions.cs" />
-    <Compile Include="Solvers\Day14SolverTests.cs" />
     <Compile Include="Solvers\Day11SolverTests.cs" />
     <Compile Include="Solvers\Day14Solver.cs" />
     <Compile Include="Solvers\Day13Solver.cs" />

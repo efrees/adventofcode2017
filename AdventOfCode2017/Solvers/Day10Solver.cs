@@ -36,7 +36,7 @@ namespace AdventOfCode2017.Solvers
             Console.WriteLine($"P1: {answerOne}");
         }
 
-        public void SolvePart2(string fileText)
+        private void SolvePart2(string fileText)
         {
             var hash = KnotHash(fileText);
 
@@ -86,16 +86,13 @@ namespace AdventOfCode2017.Solvers
 
         private int[] ReverseInArray(int[] list, int len, int startPosition)
         {
-            var reversedPart = list.Concat(list)
-                .Skip(startPosition)
-                .Take(len)
-                .Reverse()
-                .ToArray();
-
-            for (var i = 0; i < len; i++)
+            for (var i = 0; i < len/2; i++)
             {
                 var listIndex = (startPosition + i) % list.Length;
-                list[listIndex] = reversedPart[i];
+                var reversedSectionIndex = (startPosition + len - i) % list.Length;
+                var t = list[listIndex];
+                list[listIndex] = list[reversedSectionIndex];
+                list[reversedSectionIndex] = t;
             }
             return list;
         }
