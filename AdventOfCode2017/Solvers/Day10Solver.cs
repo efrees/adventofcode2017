@@ -36,7 +36,14 @@ namespace AdventOfCode2017.Solvers
             Console.WriteLine($"P1: {answerOne}");
         }
 
-        private void SolvePart2(string fileText)
+        public void SolvePart2(string fileText)
+        {
+            var hash = KnotHash(fileText);
+
+            Console.WriteLine($"P2: {hash}");
+        }
+
+        public string KnotHash(string fileText)
         {
             var lengths = Encoding.ASCII.GetBytes(fileText.Trim());
             lengths = lengths.Concat(new byte[] { 17, 31, 73, 47, 23 })
@@ -64,8 +71,7 @@ namespace AdventOfCode2017.Solvers
             }
 
             var hash = denseBytes.Select(b => b.ToString("X2"));
-
-            Console.WriteLine($"P2: {string.Join("", hash)}");
+            return string.Join("", hash);
         }
 
         private int GetXorResult(int[] sparseHash, int start)

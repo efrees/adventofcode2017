@@ -48,7 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayExtensions.cs" />
+    <Compile Include="Solvers\Day14SolverTests.cs" />
     <Compile Include="Solvers\Day11SolverTests.cs" />
+    <Compile Include="Solvers\Day14Solver.cs" />
     <Compile Include="Solvers\Day13Solver.cs" />
     <Compile Include="Solvers\Day12Solver.cs" />
     <Compile Include="Solvers\Day11Solver.cs" />
@@ -79,6 +81,7 @@
   <ItemGroup>
     <Content Include="InputFiles\day11input.txt" />
     <None Include="InputFiles\day13input.txt" />
+    <None Include="InputFiles\day14input.txt" />
     <Content Include="InputFiles\day1input.txt" />
     <Content Include="InputFiles\day2input.txt" />
     <Content Include="InputFiles\day10input.txt" />
