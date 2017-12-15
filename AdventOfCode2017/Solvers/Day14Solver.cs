@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using System.Text;
 
 namespace AdventOfCode2017.Solvers
 {

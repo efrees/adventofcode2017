@@ -10,9 +10,9 @@ namespace AdventOfCode2017.Solvers
             Console.WriteLine(info);
         }
 
-        public static void Answer(object answer)
+        public static void Answer(object answer, string part = "P1")
         {
-            Console.WriteLine($"P1: {answer}");
+            Console.WriteLine($"{part}: {answer}");
             Clipboard.SetText(answer.ToString());
         }
     }
