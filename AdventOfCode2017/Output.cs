@@ -5,7 +5,7 @@ namespace AdventOfCode2017.Solvers
 {
     internal class Output
     {
-        public static void Line(string info)
+        public static void Info(string info)
         {
             Console.WriteLine(info);
         }

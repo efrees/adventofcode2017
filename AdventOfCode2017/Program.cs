@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using AdventOfCode2017.Solvers;
 
 namespace AdventOfCode2017
@@ -14,7 +13,7 @@ namespace AdventOfCode2017
         static void Main(string[] args)
         {
             var fileText = GetInputFromFile("day15input.txt");
-            Day15Solver.Create().Solve(fileText);
+            TimeAction(() => Day15Solver.Create().Solve(fileText));
 
             Console.ReadKey();
         }
