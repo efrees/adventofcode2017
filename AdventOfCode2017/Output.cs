@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace AdventOfCode2017.Solvers
@@ -10,7 +11,7 @@ namespace AdventOfCode2017.Solvers
             Console.WriteLine(info);
         }
 
-        public static void Answer(object answer, string part = "P1")
+        public static void Answer(object answer, [CallerMemberName]string part = "P1")
         {
             Console.WriteLine($"{part}: {answer}");
             Clipboard.SetText(answer.ToString());
