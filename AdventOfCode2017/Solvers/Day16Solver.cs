@@ -7,48 +7,52 @@ namespace AdventOfCode2017.Solvers
     internal class Day16Solver : IProblemSolver
     {
         public static IProblemSolver Create() => new Day16Solver();
+        private string[] _moves;
+        private string _movesText;
 
         public void Solve(string fileText)
         {
-            SolvePart1(fileText);
-            SolvePart2(fileText);
+            _moves = _movesText == fileText && _moves != null
+                ? _moves
+                : fileText.Split(',');
+            _movesText = fileText;
+            SolvePart1(_moves);
+            SolvePart2(_moves);
         }
 
-        private void SolvePart1(string fileText)
+        private void SolvePart1(string[] moves)
         {
-            var moves = fileText.Split(',');
-            var newline = Enumerable.Range(0, 16).Select(i => (char)(i + 'a')).ToArray();
+            var newline = "abcdefghijklmnop".ToCharArray();
             var startIndex = DanceMoves(moves, newline, 0);
-            var answer = string.Join("", newline.Concat(newline).Skip(InRange(startIndex)).Take(16));
+            var answer = string.Join("", newline.Skip(startIndex).Concat(newline.Take(startIndex)));
             Output.Answer(answer);
         }
 
-        private void SolvePart2(string fileText)
+        private void SolvePart2(string[] moves)
         {
-            var moves = fileText.Split(',');
-            var newline = Enumerable.Range(0, 16).Select(i => (char)(i + 'a')).ToArray();
+            var newline = "abcdefghijklmnop".ToCharArray();
             var seenStates = new Dictionary<string, int>();
             var step = 0;
             var remainingSteps = 1000000000;
             var currentStart = 0;
             while (remainingSteps > 0)
             {
-                var currentOrder = new string(newline);
-                if (!seenStates.ContainsKey(currentOrder))
+                var orderKey = new string(newline) + currentStart;
+                if (!seenStates.ContainsKey(orderKey))
                 {
-                    seenStates[currentOrder] = step;
+                    seenStates[orderKey] = step;
                 }
                 else
                 {
                     //loop found
-                    var loopSize = step - seenStates[currentOrder];
+                    var loopSize = step - seenStates[orderKey];
                     remainingSteps = remainingSteps % loopSize;
                 }
                 currentStart = DanceMoves(moves, newline, currentStart);
                 step++;
                 remainingSteps--;
             }
-            var answer = string.Join("", newline.Concat(newline).Skip(InRange(currentStart)).Take(16));
+            var answer = string.Join("", newline.Skip(currentStart).Concat(newline.Take(currentStart)));
             Output.Answer(answer);
         }
 
@@ -60,8 +64,7 @@ namespace AdventOfCode2017.Solvers
                 {
                     case 's':
                         var spin = int.Parse(move.Substring(1));
-                        currentStart -= spin;
-                        currentStart = InRange(currentStart);
+                        currentStart = InRange(currentStart - spin);
                         break;
                     case 'p':
                         var ai = Array.IndexOf(line, move[1]);
@@ -70,10 +73,12 @@ namespace AdventOfCode2017.Solvers
                         line[bi] = move[1];
                         break;
                     case 'x':
-                        var indexes = move.Substring(1).Split('/').Select(int.Parse).ToArray();
-                        var t = line[InRange(currentStart + indexes[0])];
-                        line[InRange(currentStart + indexes[0])] = line[InRange(currentStart + indexes[1])];
-                        line[InRange(currentStart + indexes[1])] = t;
+                        var indexes = Array.ConvertAll(move.Substring(1).Split('/'), int.Parse);
+                        indexes[0] = InRange(currentStart+indexes[0]);
+                        indexes[1] = InRange(currentStart+indexes[1]);
+                        var t = line[indexes[0]];
+                        line[indexes[0]] = line[indexes[1]];
+                        line[indexes[1]] = t;
                         break;
                 }
             }
@@ -82,8 +87,7 @@ namespace AdventOfCode2017.Solvers
 
         private int InRange(int x)
         {
-            while (x < 0) x += 16;
-            return x % 16;
+            return (x + 16) % 16;
         }
     }
 }
