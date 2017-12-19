@@ -37,7 +37,7 @@
                     computer.SetRegisterValue(_op1, sum);
                     break;
                 case "mul":
-                    var prod = (long)GetOperandValue(_op1, computer) * GetOperandValue(_op2, computer);
+                    var prod = GetOperandValue(_op1, computer) * GetOperandValue(_op2, computer);
                     computer.SetRegisterValue(_op1, prod);
                     break;
                 case "mod":

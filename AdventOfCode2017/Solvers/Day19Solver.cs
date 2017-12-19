@@ -6,51 +6,52 @@ namespace AdventOfCode2017.Solvers
 {
     internal class Day19Solver : IProblemSolver
     {
+        private enum Direction
+        {
+            Down,
+            Left,
+            Up,
+            Right
+        }
+
         public static IProblemSolver Create() => new Day19Solver();
 
         public void Solve(string fileText)
         {
-//            fileText = @"     |          
-//     |  +--+    
-//     A  |  C    
-// F---|--|-E---+ 
-//     |  |  |  D 
-//     +B-+  +--+ 
-//";
             var lines = fileText.TrimEnd().Split('\n')
                 .Select(s => s.ToCharArray())
                 .ToArray();
 
             var y = 0;
             var x = Array.IndexOf(lines[0], '|');
-            var direction = 0; //down
+            var direction = Direction.Down;
             var sb = new StringBuilder();
-            var stopped = false;
-            var stepCount = 0;
+            var stepCount = 1;
 
+            var stopped = false;
             while (!stopped)
             {
                 switch (direction)
                 {
-                    case 0:
+                    case Direction.Down:
                         if (char.IsLetter(lines[y][x]))
                             sb.Append(lines[y][x]);
 
-                        if (CanMoveVertically(lines, x, y, 1))
+                        if (CanMoveTo(lines, y + 1, x))
                         {
                             y++;
                         }
                         else if (lines[y][x] == '+')
                         {
-                            if (CanMoveHorizontally(lines, y, x, 1))
+                            if (CanMoveTo(lines, y, x + 1))
                             {
                                 x++;
-                                direction = 3;
+                                direction = Direction.Right;
                             }
-                            else if (CanMoveHorizontally(lines, y, x, -1))
+                            else if (CanMoveTo(lines, y, x - 1))
                             {
                                 x--;
-                                direction = 1;
+                                direction = Direction.Left;
                             }
                         }
                         else
@@ -59,25 +60,25 @@ namespace AdventOfCode2017.Solvers
                         }
                         break;
 
-                    case 1:
+                    case Direction.Left:
                         if (char.IsLetter(lines[y][x]))
                             sb.Append(lines[y][x]);
 
-                        if (CanMoveHorizontally(lines, y, x, -1))
+                        if (CanMoveTo(lines, y, x - 1))
                         {
                             x--;
                         }
                         else if (lines[y][x] == '+')
                         {
-                            if (CanMoveVertically(lines, x, y, 1))
+                            if (CanMoveTo(lines, y + 1, x))
                             {
                                 y++;
-                                direction = 0;
+                                direction = Direction.Down;
                             }
-                            else if (CanMoveVertically(lines, x, y, -1))
+                            else if (CanMoveTo(lines, y - 1, x))
                             {
                                 y--;
-                                direction = 2;
+                                direction = Direction.Up;
                             }
                         }
                         else
@@ -86,25 +87,25 @@ namespace AdventOfCode2017.Solvers
                         }
                         break;
 
-                    case 2:
+                    case Direction.Up:
                         if (char.IsLetter(lines[y][x]))
                             sb.Append(lines[y][x]);
 
-                        if (CanMoveVertically(lines, x, y, -1))
+                        if (CanMoveTo(lines, y - 1, x))
                         {
                             y--;
                         }
                         else if (lines[y][x] == '+')
                         {
-                            if (CanMoveHorizontally(lines, y, x, +1))
+                            if (CanMoveTo(lines, y, x + 1))
                             {
                                 x++;
-                                direction = 3;
+                                direction = Direction.Right;
                             }
-                            else if (CanMoveHorizontally(lines, y, x, -1))
+                            else if (CanMoveTo(lines, y, x - 1))
                             {
                                 x--;
-                                direction = 1;
+                                direction = Direction.Left;
                             }
                         }
                         else
@@ -113,25 +114,25 @@ namespace AdventOfCode2017.Solvers
                         }
                         break;
 
-                    case 3:
+                    case Direction.Right:
                         if (char.IsLetter(lines[y][x]))
                             sb.Append(lines[y][x]);
 
-                        if (CanMoveHorizontally(lines, y, x, +1))
+                        if (CanMoveTo(lines, y, x + 1))
                         {
                             x++;
                         }
                         else if (lines[y][x] == '+')
                         {
-                            if (CanMoveVertically(lines, x, y, 1))
+                            if (CanMoveTo(lines, y + 1, x))
                             {
                                 y++;
-                                direction = 0;
+                                direction = Direction.Down;
                             }
-                            else if (CanMoveVertically(lines, x, y, -1))
+                            else if (CanMoveTo(lines, y - 1, x))
                             {
                                 y--;
-                                direction = 2;
+                                direction = Direction.Up;
                             }
                         }
                         else
@@ -145,29 +146,12 @@ namespace AdventOfCode2017.Solvers
             }
 
             Output.Answer(sb.ToString());
-            Output.Answer(stepCount, "StepCount");
+            Output.Answer(stepCount, "StepCount (P2)");
         }
 
-        private bool CanMoveVertically(char[][] lines, int x, int y, int increment)
+        private static bool CanMoveTo(char[][] lines, int y, int x)
         {
-            var nextY = y + increment;
-            return nextY >= 0 && nextY < lines.Length
-                   && (lines[nextY][x] == '|' || lines[nextY][x] == '+' || char.IsLetter(lines[nextY][x])
-                       || (lines[nextY][x] == '-' && CanMoveVertically(lines, x, nextY, increment)));
-        }
-
-        //private static bool CanMoveVertically(string[] lines, int x, int nextY)
-        //{
-        //    return nextY >= 0 && nextY < lines.Length
-        //        && (lines[nextY][x] == '|' || lines[nextY][x] == '+' || char.IsLetter(lines[nextY][x]));
-        //}
-
-        private static bool CanMoveHorizontally(char[][] lines, int y, int x, int increment)
-        {
-            var nextX = x + increment;
-            return nextX >= 0 && nextX < lines[y].Length
-                   && (lines[y][nextX] == '-' || lines[y][nextX] == '+' || char.IsLetter(lines[y][nextX])
-                       || lines[y][nextX] == '|' && CanMoveHorizontally(lines, y, nextX, increment));
+            return x >= 0 && x < lines[y].Length && lines[y][x] != ' ';
         }
     }
 }
