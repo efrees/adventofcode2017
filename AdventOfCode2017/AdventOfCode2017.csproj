@@ -59,6 +59,10 @@
     <Compile Include="Solvers\Day12Solver.cs" />
     <Compile Include="Solvers\Day11Solver.cs" />
     <Compile Include="Solvers\Day10Solver.cs" />
+    <Compile Include="Solvers\Day18\ExecutionStatus.cs" />
+    <Compile Include="Solvers\Day18\Instruction.cs" />
+    <Compile Include="Solvers\Day18\MessageStream.cs" />
+    <Compile Include="Solvers\Day18\ProgramState.cs" />
     <Compile Include="Solvers\Day9Solver.cs" />
     <Compile Include="Solvers\Day8Solver.cs" />
     <Compile Include="Solvers\Day7Solver.cs" />
@@ -74,6 +78,8 @@
     <Compile Include="Solvers\Day9SolverTests.cs" />
     <Compile Include="Solvers\IProblemSolver.cs" />
     <Compile Include="Output.cs" />
+    <Compile Include="Solvers\Day18\Part1ProgramState.cs" />
+    <Compile Include="Solvers\Day18\Part1Instruction.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
