@@ -93,6 +93,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="InputFiles\day11input.txt" />
+    <Content Include="PersonalStats.txt" />
     <None Include="InputFiles\day13input.txt" />
     <None Include="InputFiles\day14input.txt" />
     <None Include="InputFiles\day15input.txt" />
