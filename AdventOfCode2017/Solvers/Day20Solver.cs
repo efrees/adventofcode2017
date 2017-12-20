@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -16,21 +17,21 @@ namespace AdventOfCode2017.Solvers
 
         private void SolvePart1(string fileText)
         {
-            var lines = fileText.SplitIntoLines()
+            var particles = fileText.SplitIntoLines()
                 .Select(ParseParticle);
-            var current = 1;
+            var bestParticle = particles.First();
             var answer = 0;
-            var bestParticle = lines.First();
-            foreach (var particle in lines.Skip(1))
+            var current = 1;
+            foreach (var particle in particles.Skip(1))
             {
-                if (ParticleBeatsOtherInLongTerm(particle, bestParticle))
+                if (ParticleIsCloserToOriginInLongTerm(particle, bestParticle))
                 {
                     bestParticle = particle;
                     answer = current;
                 }
                 current++;
             }
-            Output.Answer(answer); //848, 593 wrong
+            Output.Answer(answer);
         }
 
         private void SolvePart2(string fileText)
@@ -38,29 +39,38 @@ namespace AdventOfCode2017.Solvers
             var particles = fileText.SplitIntoLines()
                 .Select(ParseParticle)
                 .ToList();
-            while (true)
+            while (FutureCollisionIsPossible(particles))
             {
                 particles.ForEach(p => p.SimulateStep());
-                var collidingGroups =
-                    particles.GroupBy(p => new { X = p.Position[0], Y = p.Position[1], Z = p.Position[2] }, p => p);
-                foreach (var group in collidingGroups.Where(g => g.Count() > 1))
-                {
-                    particles.RemoveAll(p => group.Contains(p));
-                }
-                particles = particles.OrderBy(p => p.CurrentDistance()).ToList();
-                var possibleCollisionInFuture = false;
-                for (var i = 0; i < particles.Count - 1; i++)
-                {
-                    if (ParticleBeatsOtherInLongTerm(particles[i + 1], particles[i]))
-                        possibleCollisionInFuture = true; ;
-                }
-
-                if (!possibleCollisionInFuture) break;
+                RemoveCollidingParticles(particles);
             }
             Output.Answer(particles.Count);
         }
 
-        private bool ParticleBeatsOtherInLongTerm(Particle particle, Particle bestParticle)
+        private bool FutureCollisionIsPossible(List<Particle> particles)
+        {
+            var orderedParticles = particles.OrderBy(p => p.CurrentDistance()).ToList();
+            var possibleCollisionInFuture = false;
+            for (var i = 0; i < orderedParticles.Count - 1; i++)
+            {
+                if (ParticleIsCloserToOriginInLongTerm(orderedParticles[i + 1], orderedParticles[i]))
+                    possibleCollisionInFuture = true;
+                ;
+            }
+            return possibleCollisionInFuture;
+        }
+
+        private static void RemoveCollidingParticles(List<Particle> particles)
+        {
+            var collidingGroups =
+                particles.GroupBy(p => new { X = p.Position[0], Y = p.Position[1], Z = p.Position[2] }, p => p);
+            foreach (var group in collidingGroups.Where(g => g.Count() > 1))
+            {
+                particles.RemoveAll(p => @group.Contains(p));
+            }
+        }
+
+        private bool ParticleIsCloserToOriginInLongTerm(Particle particle, Particle bestParticle)
         {
             if (particle.AccelerationMagnitude() < bestParticle.AccelerationMagnitude()) return true;
 
@@ -112,8 +122,8 @@ namespace AdventOfCode2017.Solvers
             public int AllMagnitude()
             {
                 return Math.Abs(Acceleration[0] + Velocity[0] + Position[0])
-                       + Math.Abs(Acceleration[1] + Velocity[1] + Position[1])
-                       + Math.Abs(Acceleration[2] + Velocity[2] + Position[2]);
+                    + Math.Abs(Acceleration[1] + Velocity[1] + Position[1])
+                    + Math.Abs(Acceleration[2] + Velocity[2] + Position[2]);
             }
 
             public int CurrentDistance()
