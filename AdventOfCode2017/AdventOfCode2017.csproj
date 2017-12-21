@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayExtensions.cs" />
+    <Compile Include="Solvers\Day21Solver.cs" />
     <Compile Include="Solvers\Day20Solver.cs" />
     <Compile Include="Solvers\Day19Solver.cs" />
     <Compile Include="Solvers\Day18Solver.cs" />
@@ -65,7 +66,7 @@
     <Compile Include="Solvers\Day18\Instruction.cs" />
     <Compile Include="Solvers\Day18\MessageStream.cs" />
     <Compile Include="Solvers\Day18\ProgramState.cs" />
-    <Compile Include="Solvers\Day20SolverTests.cs" />
+    <Compile Include="Solvers\Day21SolverTests.cs" />
     <Compile Include="Solvers\Day9Solver.cs" />
     <Compile Include="Solvers\Day8Solver.cs" />
     <Compile Include="Solvers\Day7Solver.cs" />
@@ -93,6 +94,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="InputFiles\day11input.txt" />
+    <Content Include="InputFiles\day21input.txt" />
     <Content Include="PersonalStats.txt" />
     <None Include="InputFiles\day13input.txt" />
     <None Include="InputFiles\day14input.txt" />

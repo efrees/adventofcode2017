@@ -12,8 +12,8 @@ namespace AdventOfCode2017
         [STAThread]
         static void Main(string[] args)
         {
-            var fileText = GetInputFromFile("day20input.txt");
-            Day20Solver.Create().Solve(fileText);
+            var fileText = GetInputFromFile("day21input.txt");
+            Day21Solver.Create().Solve(fileText);
 
             Console.ReadKey();
         }
