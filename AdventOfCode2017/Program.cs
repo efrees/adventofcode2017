@@ -13,7 +13,7 @@ namespace AdventOfCode2017
         static void Main(string[] args)
         {
             var fileText = GetInputFromFile("day22input.txt");
-            Day22Solver.Create().Solve(fileText);
+            TimeAction(() => Day22Solver.Create().Solve(fileText));
 
             Console.ReadKey();
         }

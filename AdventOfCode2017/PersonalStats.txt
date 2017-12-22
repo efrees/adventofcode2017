@@ -1,9 +1,11 @@
 ﻿These are your personal leaderboard statistics. Rank is your position on that leaderboard: 1 means you were the first person to get that star, 2 means the second, 100 means the 100th, etc. Score is the number of points you got for that rank: 100 for 1st, 99 for 2nd, ..., 1 for 100th, and 0 otherwise.
 
-You have 341 points.
+You have 343 points.
 
       -------Part 1--------   -------Part 2--------
 Day       Time  Rank  Score       Time  Rank  Score
+ 22   00:13:43    99      2   00:25:28   160      0
+ 21   11:22:54  1669      0   11:29:50  1599      0
  20   00:24:56   410      0   00:37:15   281      0
  19   00:42:14   563      0   00:46:21   549      0
  18   13:36:08  3966      0   23:52:12  3652      0
@@ -24,4 +26,3 @@ Day       Time  Rank  Score       Time  Rank  Score
   3   00:21:47   375      0   00:55:20   421      0
   2   00:02:47   143      0   00:06:13    99      2
   1   00:05:25   177      0   00:06:47   120      0
-

@@ -18,40 +18,29 @@ namespace AdventOfCode2017.Solvers
         {
             var gridInit = fileText.SplitIntoLines()
                 .ToArray();
-            var centerY = gridInit.Length / 2;
-            var centerX = gridInit[centerY].Length / 2;
-            var grid = new Dictionary<Tuple<int, int>, bool>();
-            for (int i = 0; i < gridInit.Length; i++)
-            {
-                for (int j = 0; j < gridInit[0].Length; j++)
-                {
-                    if (gridInit[i][j] == '#') grid[Tuple.Create(i - centerY, j - centerX)] = true;
-                }
-            }
+            var grid = InitializeGridFromStrings(gridInit);
 
-            var currentX = 0;
-            var currentY = 0;
+            var currentY = gridInit.Length / 2;
+            var currentX = gridInit[currentY].Length / 2;
             var direction = new Vector { X = 0, Y = -1 }; //up
 
             var countInfections = 0;
             for (var iter = 0; iter < 10000; iter++)
             {
                 var point = Tuple.Create(currentY, currentX);
-                if (grid.ContainsKey(point) && grid[point])
+                if (grid.ContainsKey(point) && grid[point] == NodeState.Infected)
                 {
-                    grid[point] = false;
+                    grid[point] = NodeState.Clean;
                     direction.TurnRight();
-                    currentY += direction.Y;
-                    currentX += direction.X;
                 }
                 else
                 {
-                    grid[point] = true;
+                    grid[point] = NodeState.Infected;
                     direction.TurnLeft();
-                    currentY += direction.Y;
-                    currentX += direction.X;
                     countInfections++;
                 }
+                currentX += direction.X;
+                currentY += direction.Y;
             }
             Output.Answer(countInfections);
         }
@@ -60,20 +49,9 @@ namespace AdventOfCode2017.Solvers
         {
             var gridInit = fileText.SplitIntoLines()
                 .ToArray();
-            var centerY = gridInit.Length / 2;
-            var centerX = gridInit[centerY].Length / 2;
-            var grid = new Dictionary<Tuple<int, int>, NodeState>();
-            for (int i = 0; i < gridInit.Length; i++)
-            {
-                for (int j = 0; j < gridInit[0].Length; j++)
-                {
-                    if (gridInit[i][j] == '#') grid[Tuple.Create(i - centerY, j - centerX)] = NodeState.Infected;
-                    if (gridInit[i][j] == '.') grid[Tuple.Create(i - centerY, j - centerX)] = NodeState.Clean;
-                }
-            }
-
-            var currentX = 0;
-            var currentY = 0;
+            var grid = InitializeGridFromStrings(gridInit);
+            var currentY = gridInit.Length / 2;
+            var currentX = gridInit[currentY].Length / 2;
             var direction = new Vector { X = 0, Y = -1 }; //up
 
             var countInfections = 0;
@@ -107,6 +85,19 @@ namespace AdventOfCode2017.Solvers
                 currentX += direction.X;
             }
             Output.Answer(countInfections);
+        }
+
+        private static Dictionary<Tuple<int, int>, NodeState> InitializeGridFromStrings(string[] gridInit)
+        {
+            var grid = new Dictionary<Tuple<int, int>, NodeState>();
+            for (var i = 0; i < gridInit.Length; i++)
+            {
+                for (var j = 0; j < gridInit[0].Length; j++)
+                {
+                    if (gridInit[i][j] == '#') grid[Tuple.Create(i, j)] = NodeState.Infected;
+                }
+            }
+            return grid;
         }
 
         private enum NodeState
