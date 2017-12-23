@@ -36,9 +36,14 @@
                     var sum = GetOperandValue(_op1, computer) + GetOperandValue(_op2, computer);
                     computer.SetRegisterValue(_op1, sum);
                     break;
+                case "sub":
+                    var diff = GetOperandValue(_op1, computer) - GetOperandValue(_op2, computer);
+                    computer.SetRegisterValue(_op1, diff);
+                    break;
                 case "mul":
                     var prod = GetOperandValue(_op1, computer) * GetOperandValue(_op2, computer);
                     computer.SetRegisterValue(_op1, prod);
+                    computer.CountMul();
                     break;
                 case "mod":
                     var mod = GetOperandValue(_op1, computer) % GetOperandValue(_op2, computer);
@@ -49,6 +54,10 @@
                     break;
                 case "jgz":
                     if (GetOperandValue(_op1, computer) > 0)
+                        computer.RelativeJump(GetOperandValue(_op2, computer));
+                    break;
+                case "jnz":
+                    if (GetOperandValue(_op1, computer) != 0)
                         computer.RelativeJump(GetOperandValue(_op2, computer));
                     break;
             }

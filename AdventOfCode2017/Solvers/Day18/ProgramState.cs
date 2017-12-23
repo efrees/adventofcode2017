@@ -11,9 +11,13 @@ namespace AdventOfCode2017.Solvers.Day18
         private readonly Dictionary<string, long> _registers = new Dictionary<string, long>();
         private long _currentInstruction;
         private bool _justJumped;
+        public int MulCount;
 
         public ExecutionStatus ExecutionStatus { get; private set; } = ExecutionStatus.Running;
 
+        public ProgramState()
+        {
+        }
         public ProgramState(MessageStream inputStream, MessageStream outputStream)
         {
             _inputStream = inputStream;
@@ -87,6 +91,11 @@ namespace AdventOfCode2017.Solvers.Day18
             {
                 ExecutionStatus = ExecutionStatus.Blocked;
             }
+        }
+
+        public void CountMul()
+        {
+            MulCount++;
         }
     }
 }
