@@ -11,7 +11,7 @@ namespace AdventOfCode2017.Solvers.Day18
         private readonly Dictionary<string, long> _registers = new Dictionary<string, long>();
         private long _currentInstruction;
         private bool _justJumped;
-        public int MulCount;
+        public int MultiplicationCount;
 
         public ExecutionStatus ExecutionStatus { get; private set; } = ExecutionStatus.Running;
 
@@ -93,9 +93,9 @@ namespace AdventOfCode2017.Solvers.Day18
             }
         }
 
-        public void CountMul()
+        public void LogMultiplication()
         {
-            MulCount++;
+            MultiplicationCount++;
         }
     }
 }

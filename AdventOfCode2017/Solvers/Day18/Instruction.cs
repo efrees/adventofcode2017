@@ -43,7 +43,7 @@
                 case "mul":
                     var prod = GetOperandValue(_op1, computer) * GetOperandValue(_op2, computer);
                     computer.SetRegisterValue(_op1, prod);
-                    computer.CountMul();
+                    computer.LogMultiplication();
                     break;
                 case "mod":
                     var mod = GetOperandValue(_op1, computer) % GetOperandValue(_op2, computer);

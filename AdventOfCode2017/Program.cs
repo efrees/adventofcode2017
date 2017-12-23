@@ -18,7 +18,7 @@ namespace AdventOfCode2017
             Console.ReadKey();
         }
 
-        private static string GetInputFromFile(string filename)
+        internal static string GetInputFromFile(string filename)
         {
             return File.ReadAllText("../../InputFiles/" + filename);
         }

@@ -10,38 +10,49 @@ namespace AdventOfCode2017.Solvers
         public void Solve(string fileText)
         {
             SolvePart1(fileText);
-            SolvePart2(fileText);
+            SolvePart2FromOptimizedProgram();
+            SolvePart2ByReimplementation();
         }
 
-        internal int SolvePart1(string fileText)
+        private void SolvePart1(string fileText)
         {
             var lines = fileText.SplitIntoLines()
                 .Select(Instruction.Parse);
             var computer = new ProgramState();
             computer.LoadProgram(lines);
             computer.ExecuteUntilBlocked();
-            var answer = computer.MulCount;
+            var answer = computer.MultiplicationCount;
             Output.Answer(answer);
-            return answer;
         }
 
-        internal void SolvePart2(string fileText)
+        private void SolvePart2FromOptimizedProgram()
+        {
+            var fileText = Program.GetInputFromFile("day23optimized.txt");
+            var lines = fileText.SplitIntoLines()
+                .Select(Instruction.Parse);
+            var computer = new ProgramState();
+            computer.LoadProgram(lines);
+            computer.ExecuteUntilBlocked();
+            var answer = computer.GetRegisterValue("h");
+            Output.Answer(answer);
+        }
+
+        private void SolvePart2ByReimplementation()
         {
             var b = 109300;
             var target = b + 17000;
             var count = 0;
-            while (true)
+            while (b <= target)
             {
-                var f = false;
+                var isComposite = false;
                 var d = 2;
-                while (d != b)
+                while (d * d <= b)
                 {
                     if (b % d == 0)
-                        f = true;
+                        isComposite = true;
                     d++;
                 }
-                if (f) count++;
-                if (b == target) break;
+                if (isComposite) count++;
                 b += 17;
             }
 
