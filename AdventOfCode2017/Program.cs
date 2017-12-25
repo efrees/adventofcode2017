@@ -12,15 +12,10 @@ namespace AdventOfCode2017
         [STAThread]
         static void Main(string[] args)
         {
-            var fileText = GetInputFromFile("day24input.txt");
-            Day24Solver.Create().Solve(fileText);
+            var fileText = Input.GetInputFromFile("day25input.txt");
+            Day25Solver.Create().Solve(fileText);
 
             Console.ReadKey();
-        }
-
-        internal static string GetInputFromFile(string filename)
-        {
-            return File.ReadAllText("../../InputFiles/" + filename);
         }
 
         private static void TimeAction(Action action)

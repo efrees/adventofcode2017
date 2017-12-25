@@ -27,7 +27,7 @@ namespace AdventOfCode2017.Solvers
 
         private void SolvePart2FromOptimizedProgram()
         {
-            var fileText = Program.GetInputFromFile("day23optimized.txt");
+            var fileText = Input.GetInputFromFile("day23optimized.txt");
             var lines = fileText.SplitIntoLines()
                 .Select(Instruction.Parse);
             var computer = new ProgramState();
