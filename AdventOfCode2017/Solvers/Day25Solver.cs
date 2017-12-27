@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode2017.Solvers
 {
@@ -9,92 +10,102 @@ namespace AdventOfCode2017.Solvers
 
         public void Solve(string fileText)
         {
-            var lines = fileText
-                .SplitIntoLines()
-                .Select(x => x)
-                .ToList();
+            var lines = new Queue<string>(fileText.SplitIntoLines());
 
-            var answer = DoLoop(lines);
+            var startStateName = CaptureSubstringWithPattern(lines.Dequeue(), "Begin in state (\\w+).");
+            var numberOfIterations = CaptureIntWithPattern(lines.Dequeue(), "after (\\d+) steps");
+
+            var transitions = ParseTransitions(lines);
+
+            var turingMachine = new TuringMachine(startStateName, transitions);
+            turingMachine.RunForIterations(numberOfIterations);
+            var answer = turingMachine.GetChecksum();
 
             Output.Answer(answer);
         }
 
-        internal int DoLoop(IEnumerable<string> lines)
+        private IDictionary<string, IDictionary<int, Transition>> ParseTransitions(Queue<string> lines)
         {
-            var stateA = new State
+            var transitions = new Dictionary<string, IDictionary<int, Transition>>();
+            while (lines.Count > 0)
             {
-                Name = "A",
-                ValuesToWrite = new[] { 1, 0 },
-                MoveOffsets = new[] { 1, -1 },
-                NextState = new State[2]
-            };
-            var stateB = new State
-            {
-                Name = "B",
-                ValuesToWrite = new[] { 1, 1 },
-                MoveOffsets = new[] { -1, 1 },
-                NextState = new State[2]
-            };
-            var stateC = new State
-            {
-                Name = "C",
-                ValuesToWrite = new[] { 1, 0 },
-                MoveOffsets = new[] { 1, -1 },
-                NextState = new State[2]
-            };
-            var stateD = new State
-            {
-                Name = "D",
-                ValuesToWrite = new[] { 1, 1 },
-                MoveOffsets = new[] { -1, -1 },
-                NextState = new State[2]
-            };
-            var stateE = new State
-            {
-                Name = "E",
-                ValuesToWrite = new[] { 1, 1 },
-                MoveOffsets = new[] { 1, 1 },
-                NextState = new State[2]
-            };
-            var stateF = new State
-            {
-                Name = "F",
-                ValuesToWrite = new[] { 1, 1 },
-                MoveOffsets = new[] { 1, 1 },
-                NextState = new State[2]
-            };
-            stateA.NextState = new[] { stateB, stateC };
-            stateB.NextState = new[] { stateA, stateC };
-            stateC.NextState = new[] { stateA, stateD };
-            stateD.NextState = new[] { stateE, stateC };
-            stateE.NextState = new[] { stateF, stateA };
-            stateF.NextState = new[] { stateA, stateE };
+                var stateHeader = Regex.Match(lines.Dequeue(), "In state (\\w+):");
+                if (!stateHeader.Success)
+                {
+                    continue;
+                }
 
-            var tape = new Dictionary<int, int>();
-            var position = 0;
-            var currentState = stateA;
-            var iterations = 12261543;
-            for (var i = 0; i < iterations; i++)
-            {
-                var val = GetOrDefault(tape, position);
-                tape[position] = currentState.ValuesToWrite[val];
-                position += currentState.MoveOffsets[val];
-                currentState = currentState.NextState[val];
+                var stateName = stateHeader.Groups[1].Value;
+                transitions[stateName] = ParseTransitionsForState(lines);
             }
-            return tape.Values.Count(v => v == 1);
+            return transitions;
         }
 
-        private int GetOrDefault(Dictionary<int, int> dict, int key)
+        private static Dictionary<int, Transition> ParseTransitionsForState(Queue<string> lines)
         {
-            return dict.ContainsKey(key) ? dict[key] : 0;
+            var stateTransitions = new Dictionary<int, Transition>();
+            while (lines.Any() && lines.Peek().Contains("If the current value is"))
+            {
+                var transitionValue = CaptureIntWithPattern(lines.Dequeue(), "If the current value is (\\d+):");
+                var outputValue = CaptureIntWithPattern(lines.Dequeue(), "Write the value (\\d+)");
+                var moveValue = CaptureSubstringWithPattern(lines.Dequeue(), "Move one slot to the (\\w+)") == "right" ? 1 : -1;
+                var nextState = CaptureSubstringWithPattern(lines.Dequeue(), "Continue with state (\\w+)");
+                stateTransitions.Add(transitionValue, new Transition
+                {
+                    Output = outputValue,
+                    Move = moveValue,
+                    ToState = nextState
+                });
+            }
+            return stateTransitions;
         }
 
-        private class State
+        private static string CaptureSubstringWithPattern(string input, string pattern)
         {
-            public string Name { get; set; }
-            public int[] ValuesToWrite { get; set; }
-            public int[] MoveOffsets { get; set; }
-            public State[] NextState { get; set; }
+            return Regex.Match(input, pattern).Groups[1].Value;
+        }
+
+        private static int CaptureIntWithPattern(string input, string pattern)
+        {
+            return int.Parse(CaptureSubstringWithPattern(input, pattern));
+        }
+
+        private class TuringMachine
+        {
+            public TuringMachine(string startStateName, IDictionary<string, IDictionary<int, Transition>> transitions)
+            {
+                _currentState = startStateName;
+                _transitions = transitions;
+            }
+
+            private int _currentPosition;
+            private string _currentState;
+            private readonly IDictionary<string, IDictionary<int, Transition>> _transitions;
+            private readonly IDictionary<int, int> _tape = new Dictionary<int, int>();
+
+            public void RunForIterations(int iterations)
+            {
+                for (var i = 0; i < iterations; i++)
+                {
+                    var val = _tape.ContainsKey(_currentPosition) ? _tape[_currentPosition] : 0;
+                    var transition = _transitions[_currentState][val];
+                    _tape[_currentPosition] = transition.Output;
+                    _currentPosition += transition.Move;
+                    _currentState = transition.ToState;
+                }
+            }
+
+            public int GetChecksum()
+            {
+                return _tape.Count(x => x.Value == 1);
+            }
+        }
+
+        private class Transition
+        {
+            public int Output { get; set; }
+            public int Move { get; set; }
+            public string ToState { get; set; }
         }
     }
 }

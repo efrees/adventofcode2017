@@ -72,7 +72,6 @@
     <Compile Include="Solvers\Day18\MessageStream.cs" />
     <Compile Include="Solvers\Day18\ProgramState.cs" />
     <Compile Include="Solvers\Day21SolverTests.cs" />
-    <Compile Include="Solvers\Day25SolverTests.cs" />
     <Compile Include="Solvers\Day9Solver.cs" />
     <Compile Include="Solvers\Day8Solver.cs" />
     <Compile Include="Solvers\Day7Solver.cs" />

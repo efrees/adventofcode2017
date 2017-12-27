@@ -13,7 +13,7 @@ namespace AdventOfCode2017
         static void Main(string[] args)
         {
             var fileText = Input.GetInputFromFile("day25input.txt");
-            Day25Solver.Create().Solve(fileText);
+            TimeAction(() => Day25Solver.Create().Solve(fileText));
 
             Console.ReadKey();
         }
@@ -22,7 +22,7 @@ namespace AdventOfCode2017
         {
             var stopwatch = new Stopwatch();
             var times = new List<double>();
-            for (var i = 0; i < 1; i++)
+            for (var i = 0; i < 10; i++)
             {
                 stopwatch.Restart();
                 action();
